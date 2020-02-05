@@ -1,0 +1,14 @@
+<p>flight-lookahead works!</p>
+
+<input class="form-control" [formControl]="formControl">
+
+Online: {{online$ | async }}
+
+<table class="table">
+    <tr *ngFor="let flight of flights$ | async">
+        <td>{{flight.id}}</td>
+        <td>{{flight.from}}</td>
+        <td>{{flight.to}}</td>
+        <td>{{flight.date | date:'dd.MM.yyyy HH:mm'}}</td>
+    </tr>
+</table>
