@@ -58,7 +58,7 @@ export class FlightService {
       .set('expand', 'true');
 
     const url = this.baseUrl + '/flight';
-    return this.http.get<Flight>(url, { params }); //.pipe(delay(7000));
+    return this.http.get<Flight>(url, { params }).pipe(delay(7000));
 
   }
 

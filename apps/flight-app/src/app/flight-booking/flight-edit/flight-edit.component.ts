@@ -15,16 +15,6 @@ export class FlightEditComponent implements OnInit {
   showDetails: string;
   showWarning = false;
 
-  // private id$ = this.route.params.pipe(pluck('id'), map(id => parseInt(id, 10)));
-
-  // TODO: use current property
-  // flight$ = combineLatest([
-  //             this.store.select(s => s[flightBookingFeatureKey].flights),
-  //             this.id$
-  //           ]).pipe(
-  //             map( ([flights, id]) => flights.find(f => f.id === id))
-  //           );
-            
   flight$ = this.store.select(s => s[flightBookingFeatureKey].current);
 
   constructor(

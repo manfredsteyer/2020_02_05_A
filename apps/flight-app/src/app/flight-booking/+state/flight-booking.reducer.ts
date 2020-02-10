@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as FlightBookingActions from './flight-booking.actions';
 import { Flight } from '@flight-workspace/flight-api';
-import { flightsLoaded, flightLoaded, flightUpdated } from './flight-booking.actions';
+import { flightsLoaded, flightLoaded, flightUpdated, loadFlight } from './flight-booking.actions';
 import { mutableOn } from 'ngrx-etc';
 
 export const flightBookingFeatureKey = 'flightBooking';
@@ -46,6 +46,12 @@ const flightBookingReducer = createReducer(
       [...oldFlights, flight];
 
     return { ...state, flights };
+  }),
+  
+  on(loadFlight, (state, action) => {
+    const current = state.flights.find(f => f.id === parseInt(action.id, 10));
+    debugger;
+    return { ...state, current };
   }),
 
   on(flightLoaded, (state, action) => {

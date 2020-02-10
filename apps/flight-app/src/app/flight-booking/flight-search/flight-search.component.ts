@@ -20,7 +20,7 @@ export class FlightSearchComponent implements OnInit {
 
   // deprecated
   get flights() {
-    return this.flightService.flights;
+    return []
   }
 
   flights$ = this.store.select(selectFlightsFiltered);
@@ -43,10 +43,8 @@ export class FlightSearchComponent implements OnInit {
   search(): void {
     if (!this.from || !this.to) return;
 
-    // this.store.dispatch(loadFlights({from: this.from, to: this.to, urgent: this.urgent}));
+    this.store.dispatch(loadFlights({from: this.from, to: this.to, urgent: this.urgent}));
 
-    this.flightService
-      .load(this.from, this.to, this.urgent);
   }
 
   delay(): void {
