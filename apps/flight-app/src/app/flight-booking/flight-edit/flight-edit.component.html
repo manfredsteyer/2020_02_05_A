@@ -17,6 +17,15 @@
     <p>Id: {{id}}</p>
     <p>ShowDetails: {{showDetails}}</p>
     <pre>{{ flight$ | async | json }}</pre>
+    
+    <div class="form-group">
+      <label>
+        <input [(ngModel)]="urgent" name="urgent" type="checkbox">
+        Urgent (When it's urgent it fails -- like in real life ;-))
+
+      </label>
+    </div>    
+    <button (click)="save()" class="btn btn-default">Save</button>
   </div>
 </div>
 

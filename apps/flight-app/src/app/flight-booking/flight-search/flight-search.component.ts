@@ -17,6 +17,7 @@ export class FlightSearchComponent implements OnInit {
   from = 'Hamburg'; // in Germany
   to = 'Graz'; // in Austria
   urgent = false;
+  
 
   // deprecated
   get flights() {

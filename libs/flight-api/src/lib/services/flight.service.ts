@@ -49,7 +49,6 @@ export class FlightService {
     
     //.pipe(delay(7000));
     // return of(flights).pipe(delay(this.reqDelay))
-
   }
 
   findById(id: string): Observable<Flight> {
@@ -58,12 +57,15 @@ export class FlightService {
       .set('expand', 'true');
 
     const url = this.baseUrl + '/flight';
-    return this.http.get<Flight>(url, { params }).pipe(delay(7000));
-
+    return this.http.get<Flight>(url, { params }); //.pipe(delay(7000));
   }
 
-  save(flight: Flight): Observable<Flight> {
-    const url = this.baseUrl + '/flight';
+  save(flight: Flight, urgent = false): Observable<Flight> {
+    let url = this.baseUrl + '/flight';
+
+    if (urgent) {
+      url = this.baseUrl + '/error?code=403';
+    }
     return this.http.post<Flight>(url, flight);
   }
 

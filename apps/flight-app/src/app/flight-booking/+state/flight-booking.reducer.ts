@@ -15,6 +15,8 @@ export interface FlightBookingState {
   stats: object;
   basket: object;
   blackList: number[];
+  error: string;
+  success: boolean;
   current: Flight;
 }
 
@@ -23,6 +25,8 @@ export const initialState: FlightBookingState = {
   stats: {},
   basket: {},
   blackList: [3],
+  error: '',
+  success: undefined,
   current: {} as Flight
 };
 
@@ -50,7 +54,6 @@ const flightBookingReducer = createReducer(
   
   on(loadFlight, (state, action) => {
     const current = state.flights.find(f => f.id === parseInt(action.id, 10));
-    debugger;
     return { ...state, current };
   }),
 
@@ -59,11 +62,27 @@ const flightBookingReducer = createReducer(
     return { ...state, current };
   }),
 
-  // on(flightLoaded, (state, action) => {
-  //   const flight = action.flight;
+  on(FlightBookingActions.saveFlight, (state, action) => {
+    
+    // Pessimistic
+    // const error = '', success = undefined;
+    
+    // Optimistic
+    const error = '', success = true;
 
+    return { ...state, error, success };
+  }),
 
-  // }),
+  on(FlightBookingActions.saveFlightError, (state, action) => {
+    const error = action.message, success = false;
+    return { ...state, error, success };
+  }),
+
+  on(FlightBookingActions.flightSaved, (state, action) => {
+    const error = '', success = true;
+    return { ...state, error, success };
+  }),
+
 
 );
 

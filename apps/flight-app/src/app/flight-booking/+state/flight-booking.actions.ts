@@ -27,3 +27,18 @@ export const flightLoaded = createAction(
   props<{flight: Flight}>()
 );
 
+export const saveFlight = createAction(
+  '[FlightBooking] saveFlight',
+  props<{ urgent: boolean }>()
+);
+
+export const flightSaved = createAction(
+  '[FlightBooking] flightSaved', 
+  props<{flight: Flight}>()
+);
+
+export const saveFlightError = createAction(
+  '[FlightBooking] saveFlightError', 
+  props<{message: string}>()
+);
+
