@@ -15,14 +15,14 @@ import {CityPipe} from './pipes/city.pipe';
   ]
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: []
     }
   }
 
-  static forChild(): ModuleWithProviders {
+  static forChild(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: []

@@ -8,7 +8,7 @@ import {FlightService} from './services/flight.service';
   ]
 })
 export class FlightApiModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FlightApiModule> {
     return {
       ngModule: FlightApiModule,
       providers: [

@@ -16,7 +16,7 @@
             "main": "apps/flight-app/src/main.ts",
             "polyfills": "apps/flight-app/src/polyfills.ts",
             "tsConfig": "apps/flight-app/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/flight-app/src/favicon.ico",
               "apps/flight-app/src/assets"
@@ -32,6 +32,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/flight-app/src/environments/environment.ts",
@@ -43,7 +49,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -137,7 +142,7 @@
             "main": "apps/dashboard/src/main.ts",
             "polyfills": "apps/dashboard/src/polyfills.ts",
             "tsConfig": "apps/dashboard/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/dashboard/src/favicon.ico",
               "apps/dashboard/src/assets"
@@ -152,6 +157,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/dashboard/src/environments/environment.ts",
@@ -163,7 +174,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -257,7 +267,7 @@
             "main": "apps/flight-admin/src/main.ts",
             "polyfills": "apps/flight-admin/src/polyfills.ts",
             "tsConfig": "apps/flight-admin/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/flight-admin/src/favicon.ico",
               "apps/flight-admin/src/assets"
@@ -269,6 +279,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/flight-admin/src/environments/environment.ts",
@@ -280,7 +296,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
@@ -374,7 +389,8 @@
           "configurations": {
             "production": {
               "project": "libs/logger-lib/ng-package.prod.json"
-            }
+            ,              "tsConfig": "libs/logger-lib/tsconfig.lib.prod.json"
+}
           }
         },
         "lint": {

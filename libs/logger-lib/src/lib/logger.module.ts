@@ -23,7 +23,7 @@ import {LoggerService} from './logger.service';
 export class LoggerModule {
 
   // Setup
-  static forRoot(config: LoggerConfig): ModuleWithProviders {
+  static forRoot(config: LoggerConfig): ModuleWithProviders<LoggerModule> {
     return {
       ngModule: LoggerModule,
       providers: [

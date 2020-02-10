@@ -10,7 +10,7 @@ import { share, publish, delay, catchError } from 'rxjs/operators';
 export class FlightService {
 
   flights: Flight[] = [];
-  baseUrl = `http://www.angular.at/api`;
+  baseUrl = `https://flight-api-demo.azurewebsites.net/api`;
   reqDelay = 1000;
 
   constructor(private http: HttpClient) {
