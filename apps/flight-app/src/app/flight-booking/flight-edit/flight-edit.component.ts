@@ -5,6 +5,7 @@ import { FlightBookingAppState, flightBookingFeatureKey } from '../+state/flight
 import { Store } from '@ngrx/store';
 import { loadFlight, saveFlight } from '../+state/flight-booking.actions';
 import { combineLatest } from 'rxjs';
+import { selectCurrentFlight } from '../+state/flight-booking.selectors';
 
 @Component({
   selector: 'app-flight-edit',
@@ -15,7 +16,7 @@ export class FlightEditComponent implements OnInit {
   showDetails: string;
   showWarning = false;
   urgent = false;
-  flight$ = this.store.select(s => s[flightBookingFeatureKey].current);
+  flight$ = this.store.select(selectCurrentFlight);
 
   constructor(
     private route: ActivatedRoute,

@@ -10,9 +10,13 @@ export interface FlightBookingAppState {
   [flightBookingFeatureKey]: FlightBookingState;
 }
 
+export type FlightState = Flight & {
+  flightBookings: number[];
+}
+
 export interface FlightBookingState {
   flightIds: number[];
-  flights: { [id: number]: Flight },
+  flights: { [id: number]: FlightState },
   passengers: { [id: number]: any },
   flightBookings: { [id: number]: any }
   stats: object;
@@ -20,7 +24,7 @@ export interface FlightBookingState {
   blackList: number[];
   error: string;
   success: boolean;
-  current: Flight;
+  current: number;
 }
 
 export const initialState: FlightBookingState = {
@@ -31,7 +35,7 @@ export const initialState: FlightBookingState = {
 
   error: '',
   success: undefined,
-  current: {} as Flight,
+  current: 0,
 
   stats: {},
   basket: {},
@@ -41,9 +45,9 @@ export const initialState: FlightBookingState = {
 const flightBookingReducer = createReducer(
   initialState,
 
-  mutableOn(flightsLoaded, (state, action) => {
-    const flights = action.flights;
-    state.flights = flights;
+  on(flightsLoaded, (state, action) => {
+    const result = action.result;
+    return { ...state, ...result };
   }),
 
   on(flightUpdated, (state, action) => {
@@ -56,13 +60,19 @@ const flightBookingReducer = createReducer(
   }),
   
   on(loadFlight, (state, action) => {
-    const current = state.flights[action.id];
+    const current = parseInt(action.id, 10);
     return { ...state, current };
   }),
 
   on(flightLoaded, (state, action) => {
-    const current = action.flight;
-    return { ...state, current };
+    const result = action.result;
+    
+    const flights = { ...state.flights, ...result.flights };
+    const flightBookings = { ...state.flightBookings, ...result.flightBookings };
+    const passengers = { ...state.passengers, ...result.passengers };
+    const current = result.flightIds;
+
+    return { ...state, flights, flightBookings, passengers, current };
   }),
 
   on(FlightBookingActions.saveFlight, (state) => {

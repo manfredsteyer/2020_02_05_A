@@ -40,3 +40,10 @@ export const selectFlights = createSelector(
   (s: FlightBookingAppState) => s[flightBookingFeatureKey].flightIds,
   (flights, ids) => ids.map(id => flights[id])
 );
+
+export const selectCurrentFlight = createSelector(
+  (s: FlightBookingAppState) => s[flightBookingFeatureKey].flights,
+  (s: FlightBookingAppState) => s[flightBookingFeatureKey].current,
+  (flights, id) => flights[id]
+);
+

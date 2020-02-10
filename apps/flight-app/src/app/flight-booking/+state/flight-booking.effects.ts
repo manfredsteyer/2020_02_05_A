@@ -2,40 +2,47 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, withLatestFrom, catchError, delay } from 'rxjs/operators';
 import * as FlightBookingActions from './flight-booking.actions';
-import { FlightService } from '@flight-workspace/flight-api';
+import { FlightService, Flight } from '@flight-workspace/flight-api';
 import { Store } from '@ngrx/store';
-import { FlightBookingAppState, flightBookingFeatureKey } from './flight-booking.reducer';
+import { FlightBookingAppState, flightBookingFeatureKey, FlightState } from './flight-booking.reducer';
 import { of } from 'rxjs';
+import { normalizeFlight, normalizeFlights } from './flight-booking.schema';
+import { selectCurrentFlight } from './flight-booking.selectors';
+import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
+
+function toFlight(flightState: FlightState): Flight {
+  const { flightBookings, ...flight } = flightState;
+  return flight;
+}
 
 @Injectable()
 export class FlightBookingEffects {
 
-  loadFlightBookings$ = createEffect(() => {
+  loadFlights$ = createEffect(() => {
     return this.actions$.pipe( 
       ofType(FlightBookingActions.loadFlights),
       switchMap(a => this.flightService.find(a.from, a.to, a.urgent)),
-      map(flights => FlightBookingActions.flightsLoaded({flights}))
-      );
-  });
+      map(flights => FlightBookingActions.flightsLoaded({ result: normalizeFlights(flights) })))
+    });
 
   loadFlight$ = createEffect(() => 
     this.actions$.pipe(
       ofType(FlightBookingActions.loadFlight),
       switchMap(a => this.flightService.findById(a.id)),
-      map(flight => FlightBookingActions.flightLoaded({ flight }))
+      map(flight => FlightBookingActions.flightLoaded({ result: normalizeFlight(flight) }))
     ));
   
   saveFlight$ = createEffect(() => 
     this.actions$.pipe(
       ofType(FlightBookingActions.saveFlight),
-      withLatestFrom(this.store.select(s => s[flightBookingFeatureKey].current)),
-      switchMap( ([a, current]) => this.flightService.save(current, a.urgent)),
-      map(flight => FlightBookingActions.flightSaved({ flight })),
-      catchError(resp => of(FlightBookingActions.saveFlightError({ message: resp.message }))),
-      delay(7000)
+      withLatestFrom(this.store.select(selectCurrentFlight)),
+      switchMap( ([a, current]) => this.flightService.save(toFlight(current), a.urgent).pipe(
+        map(flight => FlightBookingActions.flightSaved({ flight })),
+        catchError(resp => of(FlightBookingActions.saveFlightError({ message: resp.message }))),
+      )),
+      delay(3000)
     ));
-
-
+    
   constructor(
     private actions$: Actions,
     private store: Store<FlightBookingAppState>,

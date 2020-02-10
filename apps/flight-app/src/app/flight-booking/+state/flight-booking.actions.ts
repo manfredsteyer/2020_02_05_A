@@ -1,9 +1,16 @@
 import { createAction, props } from '@ngrx/store';
 import { Flight } from '@flight-workspace/flight-api';
 
+export interface NormalizedFlights {
+  flights: { [id: number]: Flight };
+  passengers: { [id: number]: any }; 
+  flightBookings: { [id: number]: any };
+  flightIds: number[] | number;
+}
+
 export const flightsLoaded = createAction(
   '[FlightBooking] flightsLoaded',  // Event
-  props<{flights: Flight[]}>()
+  props<{result: NormalizedFlights}>()
 );
 
 export const flightUpdated = createAction(
@@ -24,7 +31,7 @@ export const loadFlight = createAction(
 
 export const flightLoaded = createAction(
   '[FlightBooking] flightLoaded', 
-  props<{flight: Flight}>()
+  props<{result: NormalizedFlights}>()
 );
 
 export const saveFlight = createAction(
