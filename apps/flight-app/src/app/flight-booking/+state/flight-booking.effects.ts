@@ -4,16 +4,10 @@ import { switchMap, map, withLatestFrom, catchError, delay } from 'rxjs/operator
 import * as FlightBookingActions from './flight-booking.actions';
 import { FlightService, Flight } from '@flight-workspace/flight-api';
 import { Store } from '@ngrx/store';
-import { FlightBookingAppState, flightBookingFeatureKey, FlightState } from './flight-booking.reducer';
+import { FlightBookingAppState, flightBookingFeatureKey, FlightState, toFlight } from './flight-booking.reducer';
 import { of } from 'rxjs';
 import { normalizeFlight, normalizeFlights } from './flight-booking.schema';
 import { selectCurrentFlight } from './flight-booking.selectors';
-import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
-
-function toFlight(flightState: FlightState): Flight {
-  const { flightBookings, ...flight } = flightState;
-  return flight;
-}
 
 @Injectable()
 export class FlightBookingEffects {

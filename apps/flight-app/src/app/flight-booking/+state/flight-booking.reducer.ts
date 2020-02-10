@@ -14,6 +14,11 @@ export type FlightState = Flight & {
   flightBookings: number[];
 }
 
+export function toFlight(flightState: FlightState): Flight {
+  const { flightBookings, ...flight } = flightState;
+  return flight;
+}
+
 export interface FlightBookingState {
   flightIds: number[];
   flights: { [id: number]: FlightState },
