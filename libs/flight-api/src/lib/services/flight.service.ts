@@ -12,7 +12,6 @@ export class FlightService {
   flights: Flight[] = [];
   // baseUrl = `https://flight-api-demo.azurewebsites.net/api`;
   baseUrl = `http://localhost:5000/api`;
-  reqDelay = 1000;
 
   constructor(private http: HttpClient) {
   }
@@ -33,10 +32,10 @@ export class FlightService {
     // let url = '/assets/data/data.json';
 
     // For online access
-    let url = [this.baseUrl, 'flight'].join('/');
+    let url = this.baseUrl + '/flight';
 
     if (urgent) {
-      url = [this.baseUrl,'error?code=403'].join('/');
+      url = this.baseUrl + '/error?code=403';
     }
 
     const params = new HttpParams()
@@ -46,9 +45,7 @@ export class FlightService {
     const headers = new HttpHeaders()
       .set('Accept', 'application/json');
 
-    const reqObj = {params, headers};
-    return this.http.get<Flight[]>(url, reqObj)
-            .pipe(catchError(err => of([])))
+    return this.http.get<Flight[]>(url, {params, headers});
     
     //.pipe(delay(7000));
     // return of(flights).pipe(delay(this.reqDelay))
@@ -56,15 +53,17 @@ export class FlightService {
   }
 
   findById(id: string): Observable<Flight> {
-    const reqObj = { params: null };
-    reqObj.params = new HttpParams().set('id', id).set('expand', 'true');
-    const url = [this.baseUrl, 'flight'].join('/');
-    return this.http.get<Flight>(url, reqObj).pipe(delay(7000));
-    // return of(flights[0]).pipe(delay(this.reqDelay))
+    const params = new HttpParams()
+      .set('id', id)
+      .set('expand', 'true');
+
+    const url = this.baseUrl + '/flight';
+    return this.http.get<Flight>(url, { params }); //.pipe(delay(7000));
+
   }
 
   save(flight: Flight): Observable<Flight> {
-    const url = [this.baseUrl, 'flight'].join('/');
+    const url = this.baseUrl + '/flight';
     return this.http.post<Flight>(url, flight);
   }
 
