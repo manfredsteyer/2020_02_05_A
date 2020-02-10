@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as FlightBookingActions from './flight-booking.actions';
 import { Flight } from '@flight-workspace/flight-api';
-import { flightsLoaded } from './flight-booking.actions';
+import { flightsLoaded, flightLoaded, flightUpdated } from './flight-booking.actions';
 import { mutableOn } from 'ngrx-etc';
 
 export const flightBookingFeatureKey = 'flightBooking';
@@ -15,13 +15,15 @@ export interface FlightBookingState {
   stats: object;
   basket: object;
   blackList: number[];
+  current: Flight;
 }
 
 export const initialState: FlightBookingState = {
   flights: [],
   stats: {},
   basket: {},
-  blackList: [3]
+  blackList: [3],
+  current: {} as Flight
 };
 
 const flightBookingReducer = createReducer(
@@ -32,14 +34,30 @@ const flightBookingReducer = createReducer(
     state.flights = flights;
   }),
 
-  mutableOn(FlightBookingActions.flightUpdated, (state, action) => {
+  on(flightUpdated, (state, action) => {
     const flight = action.flight;
-    
     const oldFlights = state.flights;
-    const flights = oldFlights.map(f => f.id === flight.id ? flight : f);
+    
+    const exists = oldFlights.find(f => f.id === flight.id);
 
-    state.flights = flights;
+    const flights =
+      exists ? 
+      oldFlights.map(f => f.id === flight.id ? flight : f) :
+      [...oldFlights, flight];
+
+    return { ...state, flights };
   }),
+
+  on(flightLoaded, (state, action) => {
+    const current = action.flight;
+    return { ...state, current };
+  }),
+
+  // on(flightLoaded, (state, action) => {
+  //   const flight = action.flight;
+
+
+  // }),
 
 );
 

@@ -11,9 +11,19 @@ export const flightUpdated = createAction(
   props<{flight: Flight}>()
 );
 
-
 export const loadFlights = createAction(
   '[FlightBooking] loadFlights', // Commando
   props<{from: string, to: string, urgent: boolean}>()
+);
+
+
+export const loadFlight = createAction(
+  '[FlightBooking] loadFlight', 
+  props<{id: string}>()
+);
+
+export const flightLoaded = createAction(
+  '[FlightBooking] flightLoaded', 
+  props<{flight: Flight}>()
 );
 
