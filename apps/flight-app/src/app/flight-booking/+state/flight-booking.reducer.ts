@@ -11,7 +11,10 @@ export interface FlightBookingAppState {
 }
 
 export interface FlightBookingState {
-  flights: Flight[];
+  flightIds: number[];
+  flights: { [id: number]: Flight },
+  passengers: { [id: number]: any },
+  flightBookings: { [id: number]: any }
   stats: object;
   basket: object;
   blackList: number[];
@@ -21,13 +24,18 @@ export interface FlightBookingState {
 }
 
 export const initialState: FlightBookingState = {
-  flights: [],
+  flightIds: [],
+  flights: {},
+  passengers: {},
+  flightBookings: {},
+
+  error: '',
+  success: undefined,
+  current: {} as Flight,
+
   stats: {},
   basket: {},
   blackList: [3],
-  error: '',
-  success: undefined,
-  current: {} as Flight
 };
 
 const flightBookingReducer = createReducer(
@@ -41,19 +49,14 @@ const flightBookingReducer = createReducer(
   on(flightUpdated, (state, action) => {
     const flight = action.flight;
     const oldFlights = state.flights;
-    
-    const exists = oldFlights.find(f => f.id === flight.id);
 
-    const flights =
-      exists ? 
-      oldFlights.map(f => f.id === flight.id ? flight : f) :
-      [...oldFlights, flight];
+    const flights = { ...oldFlights, [flight.id]: flight };
 
     return { ...state, flights };
   }),
   
   on(loadFlight, (state, action) => {
-    const current = state.flights.find(f => f.id === parseInt(action.id, 10));
+    const current = state.flights[action.id];
     return { ...state, current };
   }),
 
@@ -62,7 +65,7 @@ const flightBookingReducer = createReducer(
     return { ...state, current };
   }),
 
-  on(FlightBookingActions.saveFlight, (state, action) => {
+  on(FlightBookingActions.saveFlight, (state) => {
     
     // Pessimistic
     // const error = '', success = undefined;
@@ -78,7 +81,7 @@ const flightBookingReducer = createReducer(
     return { ...state, error, success };
   }),
 
-  on(FlightBookingActions.flightSaved, (state, action) => {
+  on(FlightBookingActions.flightSaved, (state) => {
     const error = '', success = true;
     return { ...state, error, success };
   }),

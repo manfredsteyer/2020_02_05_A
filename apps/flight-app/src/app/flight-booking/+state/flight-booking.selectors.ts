@@ -10,22 +10,33 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 
 
-export const selectFlights = 
-  (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].flights;
+// export const selectFlights = 
+//   (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].flights;
 
-export const selectFlights2 = createSelector(
-  (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].flights,
-  flights => flights);
+// export const selectFlights2 = createSelector(
+//   (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].flights,
+//   flights => flights);
 
-export const selectFlightsFiltered = createSelector(
-    (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].flights,
-    (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].blackList,
-    (flights, blackList) => flights.filter(f => !blackList.includes(f.id))
-);
+// export const selectFlightsFiltered = createSelector(
+//     (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].flights,
+//     (appState: FlightBookingAppState) => appState[flightBookingFeatureKey].blackList,
+//     (flights, blackList) => flights.filter(f => !blackList.includes(f.id))
+// );
   
 export const selectFlightBooking = 
   createFeatureSelector<FlightBookingState>(flightBookingFeatureKey);
 
-export const selectFlights3 = createSelector(
-  selectFlightBooking,
-  fb => fb.flights);
+// export const selectFlights3 = createSelector(
+//   selectFlightBooking,
+//   fb => fb.flights);
+
+
+// export const selectFlightBooking = 
+//   createFeatureSelector<FlightBookingState>(flightBookingFeatureKey);
+
+
+export const selectFlights = createSelector(
+  (s: FlightBookingAppState) => s[flightBookingFeatureKey].flights,
+  (s: FlightBookingAppState) => s[flightBookingFeatureKey].flightIds,
+  (flights, ids) => ids.map(id => flights[id])
+);

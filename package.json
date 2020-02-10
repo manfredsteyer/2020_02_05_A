@@ -55,6 +55,7 @@
     "core-js": "^2.5.4",
     "ngrx-etc": "^3.0.0",
     "ngx-build-plus": "^9.0.2",
+    "normalizr": "^3.5.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "web-animations-js": "^2.3.2",

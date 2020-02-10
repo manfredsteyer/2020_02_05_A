@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { FlightBookingAppState, flightBookingFeatureKey } from '../+state/flight-booking.reducer';
 import { flightsLoaded, loadFlights, flightUpdated } from '../+state/flight-booking.actions';
-import { selectFlights, selectFlightsFiltered } from '../+state/flight-booking.selectors';
+import { selectFlights } from '../+state/flight-booking.selectors';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -24,7 +24,7 @@ export class FlightSearchComponent implements OnInit {
     return []
   }
 
-  flights$ = this.store.select(selectFlightsFiltered);
+  flights$ = this.store.select(selectFlights);
 
   // "shopping basket" with selected flights
   basket: object = {
