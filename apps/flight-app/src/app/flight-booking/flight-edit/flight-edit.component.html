@@ -3,28 +3,20 @@
     <h1 class="title">Flight Edit</h1>
   </div>
 
-
-  <div class="alert alert-warning" *ngIf="showWarning" style="margin:20px;">
-
-    <p>
-      You haven't saved your modifications. Do you really want to leave me?
-    </p>
-    <button class="btn btn-primary" (click)="decide(true)">Yes</button>
-    <button class="btn btn-primary" (click)="decide(false)">No</button>
-  </div>
-
   <div class="content">
+
+    <p class="success" *ngIf="success$ | async">
+      Successfully saved!
+    </p>
+
+    <p class="warning" *ngIf="error$ | async">
+      {{ error$ | async }}
+    </p>
+
     <p>Id: {{id}}</p>
     <p>ShowDetails: {{showDetails}}</p>
     <pre>{{ flight$ | async | json }}</pre>
     
-    <div class="form-group">
-      <label>
-        <input [(ngModel)]="urgent" name="urgent" type="checkbox">
-        Urgent (When it's urgent it fails -- like in real life ;-))
-
-      </label>
-    </div>    
     <button (click)="save()" class="btn btn-default">Save</button>
   </div>
 </div>

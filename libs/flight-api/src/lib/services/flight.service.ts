@@ -1,17 +1,15 @@
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 
-import {Observable, of, ConnectableObservable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Flight} from '../models/flight';
-import { share, publish, delay, catchError, map } from 'rxjs/operators';
-
 
 @Injectable()
 export class FlightService {
 
   flights: Flight[] = [];
-  // baseUrl = `https://flight-api-demo.azurewebsites.net/api`;
-  baseUrl = `http://localhost:5000/api`;
+  baseUrl = `https://flight-api-demo.azurewebsites.net/api`;
+  //baseUrl = `http://localhost:5000/api`;
 
   constructor(private http: HttpClient) {
   }
@@ -47,8 +45,6 @@ export class FlightService {
 
     return this.http.get<Flight[]>(url, {params, headers});
     
-    //.pipe(delay(7000));
-    // return of(flights).pipe(delay(this.reqDelay))
   }
 
   findById(id: string): Observable<Flight> {
@@ -57,7 +53,7 @@ export class FlightService {
       .set('expand', 'true');
 
     const url = this.baseUrl + '/flight';
-    return this.http.get<Flight>(url, { params }); //.pipe(delay(7000));
+    return this.http.get<Flight>(url, { params });
   }
 
   save(flight: Flight, urgent = false): Observable<Flight> {

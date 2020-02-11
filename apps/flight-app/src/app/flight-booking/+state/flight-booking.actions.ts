@@ -23,7 +23,6 @@ export const loadFlights = createAction(
   props<{from: string, to: string, urgent: boolean}>()
 );
 
-
 export const loadFlight = createAction(
   '[FlightBooking] loadFlight', 
   props<{id: string}>()
@@ -46,6 +45,10 @@ export const flightSaved = createAction(
 
 export const saveFlightError = createAction(
   '[FlightBooking] saveFlightError', 
-  props<{message: string}>()
+  props<{error: string}>()
+);
+
+export const resetFlightError = createAction(
+  '[FlightBooking] resetFlightError' 
 );
 

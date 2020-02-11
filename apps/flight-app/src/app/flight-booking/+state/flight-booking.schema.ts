@@ -1,4 +1,4 @@
-import { schema, normalize, denormalize } from 'normalizr';
+import { schema, normalize } from 'normalizr';
 import { Flight } from '@flight-workspace/flight-api';
 import { NormalizedFlights } from './flight-booking.actions';
 
@@ -31,7 +31,6 @@ export function normalizeFlight(denormalized: Flight): NormalizedFlights {
 
     return { flights, passengers, flightBookings, flightIds };
 }
-
 
 // const data = {
 //     "id": 1,

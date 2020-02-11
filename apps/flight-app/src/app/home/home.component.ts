@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import { Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -39,6 +38,4 @@ export class HomeComponent implements OnInit {
     this._userName = '';
   }
 
-
 }
-

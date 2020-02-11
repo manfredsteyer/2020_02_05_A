@@ -2,7 +2,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as FlightBookingActions from './flight-booking.actions';
 import { Flight } from '@flight-workspace/flight-api';
 import { flightsLoaded, flightLoaded, flightUpdated, loadFlight } from './flight-booking.actions';
-import { mutableOn } from 'ngrx-etc';
 
 export const flightBookingFeatureKey = 'flightBooking';
 
@@ -15,6 +14,7 @@ export type FlightState = Flight & {
 }
 
 export function toFlight(flightState: FlightState): Flight {
+  if (!flightState) return null;
   const { flightBookings, ...flight } = flightState;
   return flight;
 }
@@ -87,12 +87,11 @@ const flightBookingReducer = createReducer(
     
     // Optimistic
     const error = '', success = true;
-
     return { ...state, error, success };
   }),
 
   on(FlightBookingActions.saveFlightError, (state, action) => {
-    const error = action.message, success = false;
+    const error = action.error, success = false;
     return { ...state, error, success };
   }),
 
@@ -101,6 +100,10 @@ const flightBookingReducer = createReducer(
     return { ...state, error, success };
   }),
 
+  on(FlightBookingActions.resetFlightError, (state) => {
+    const error = '', success = undefined;
+    return { ...state, error, success };
+  }),
 
 );
 

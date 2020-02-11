@@ -1,22 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import { pluck, switchMap, map } from 'rxjs/operators';
 import { FlightBookingAppState, flightBookingFeatureKey } from '../+state/flight-booking.reducer';
 import { Store } from '@ngrx/store';
-import { loadFlight, saveFlight } from '../+state/flight-booking.actions';
-import { combineLatest } from 'rxjs';
-import { selectCurrentFlight } from '../+state/flight-booking.selectors';
+import { loadFlight, saveFlight, resetFlightError } from '../+state/flight-booking.actions';
+import { selectCurrentFlightWithPassengers } from '../+state/flight-booking.selectors';
 
 @Component({
   selector: 'app-flight-edit',
-  templateUrl: './flight-edit.component.html'
+  templateUrl: './flight-edit.component.html',
+  styleUrls: ['./flight-edit.component.css']
 })
-export class FlightEditComponent implements OnInit {
+export class FlightEditComponent implements OnInit, OnDestroy {
   id: string;
   showDetails: string;
   showWarning = false;
   urgent = false;
-  flight$ = this.store.select(selectCurrentFlight);
+
+  flight$ = this.store.select(selectCurrentFlightWithPassengers);
+  success$ = this.store.select(s => s[flightBookingFeatureKey].success);
+  error$ = this.store.select(s => s[flightBookingFeatureKey].error);
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +35,8 @@ export class FlightEditComponent implements OnInit {
     });
   }
 
-  decide(decision: boolean) {
+  ngOnDestroy(): void {
+    this.store.dispatch(resetFlightError());
   }
 
   save() {
