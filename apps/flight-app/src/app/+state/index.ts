@@ -17,5 +17,14 @@ export const reducers: ActionReducerMap<State> = {
   // currentUser: authReducer
 };
 
+function metaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return (state, action) => {
+    console.debug('state', state);
+    console.debug('action', action);
+    return reducer(state, action);
+  }
+}
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production ? 
+  [metaReducer] : 
+  [];

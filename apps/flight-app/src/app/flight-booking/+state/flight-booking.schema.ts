@@ -1,6 +1,6 @@
-import { schema, normalize } from 'normalizr';
 import { Flight } from '@flight-workspace/flight-api';
 import { NormalizedFlights } from './flight-booking.actions';
+import { schema, normalize } from 'normalizr';
 
 export const passengerSchema = new schema.Entity('passengers');
 
@@ -74,7 +74,7 @@ export function normalizeFlight(denormalized: Flight): NormalizedFlights {
 //     ]
 //   };
     
-// const normalized = normalize(data, flight);
+// const normalized = normalize(data, flightSchema);
 
 // const denormalized = denormalize(normalized.result, flight, normalized.entities);
 
